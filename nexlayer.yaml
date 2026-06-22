@@ -1,0 +1,25 @@
+application:
+  name: simplelogin
+  pods:
+  - name: app
+    image: simplelogin/app:latest
+    path: /
+    servicePorts:
+    - 7777
+    vars:
+      URL: "https://relaxed-weasel-simplelogin.cloud.nexlayer.ai"
+      DB_URI: "postgresql://simplelogin:simplelogin@postgres.pod:5432/simplelogin"
+      FLASK_SECRET: "a1b2c3d4e5f6a1b2c3d4"
+      DISABLE_ALIAS_SUFFIX: "1"
+  - name: postgres
+    image: postgres:16-alpine
+    servicePorts:
+    - 5432
+    vars:
+      POSTGRES_DB: simplelogin
+      POSTGRES_USER: simplelogin
+      POSTGRES_PASSWORD: simplelogin
+    volumes:
+    - name: simplelogin-db
+      mountPath: /var/lib/postgresql/data
+      size: 5Gi
